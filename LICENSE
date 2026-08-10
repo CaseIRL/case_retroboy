@@ -1,0 +1,39 @@
+Case RetroBoy License (No-Bundling / No-Resale)
+
+Copyright (c) 2026 CaseIRL
+
+1. GRANT: You may use, run, modify, and self-host this Software (the 
+   "Loader") free of charge, for personal, community, or commercial 
+   purposes.
+
+2. NO STANDALONE RESALE: You may not sell, license, or charge money for 
+   the Loader itself, in unmodified or modified form.
+
+3. NO BUNDLING: You may not package, bundle, or distribute the Loader 
+   together with any other product, game, or content that you sell or 
+   charge money for - whether combined into a single download, installer, 
+   repository, or file package. End users must obtain the Loader 
+   independently and directly from its official source 
+   (github.com/caseirl/case_retroboy).
+
+4. GAMES/CONTENT EXEMPTION: Games, skins, or other content built to run 
+   on the Loader are independent works. You may sell or distribute them 
+   freely, PROVIDED they are distributed separately from the Loader per 
+   Section 3 - e.g. as game files placed into the Loader's games/ 
+   directory, or as a separate FiveM resource registered with the Loader 
+   via its export system, in either case installed by the end user into 
+   their own copy of the Loader obtained directly from the official 
+   source.
+
+5. ATTRIBUTION: Any redistribution of the Loader itself (permitted under 
+   Section 1) must retain this license and copyright notice unmodified.
+
+6. TERMINATION: Any violation of Sections 2 or 3 automatically terminates 
+   your rights under this license as of the moment of violation.
+
+7. DISCLAIMER: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
+   KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+   OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, 
+   DAMAGES OR OTHER LIABILITY ARISING FROM THE SOFTWARE OR THE USE OR 
+   OTHER DEALINGS IN THE SOFTWARE.
