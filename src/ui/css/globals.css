@@ -1,0 +1,51 @@
+/*
+--------------------------------------------------
+
+Author: Case | https://caseirl.dev
+GitHub: https://github.com/caseirl/case_retroboy
+License: https://github.com/caseirl/case_retroboy/blob/main/LICENSE
+
+Do not resell or bundle.
+Retain this header in all files.
+Support honest open source development.
+
+--------------------------------------------------
+*/
+
+/* Base Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+/* Global Focus Reset */
+*:focus,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+}
+
+body {
+    font-family: var(--font_body);
+    background: transparent;
+    color: var(--text_main);
+    overflow: hidden;
+}
+
+/* Global Styles */
+#ui_container {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font_header);
+}

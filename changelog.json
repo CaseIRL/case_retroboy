@@ -1,0 +1,9 @@
+{
+    "1.0.0": {
+        "version": "1.0.0",
+        "changelog": [
+            "Initial release version."
+        ],
+        "download": "https://github.com/CaseIRL/case_retroboy"
+    }
+}

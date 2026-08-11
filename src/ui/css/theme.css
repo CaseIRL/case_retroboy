@@ -1,0 +1,39 @@
+/*
+--------------------------------------------------
+
+Author: Case | https://caseirl.dev
+GitHub: https://github.com/caseirl/case_retroboy
+License: https://github.com/caseirl/case_retroboy/blob/main/LICENSE
+
+Do not resell or bundle.
+Retain this header in all files.
+Support honest open source development.
+
+--------------------------------------------------
+*/
+
+/* 
+    Import Fonts
+    Can import from https://fonts.google.com for example
+*/
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+
+/* 
+    Root Settings
+    Handles fonts, sizing and theming games can override most of this
+*/
+:root {
+    --font_family: "JetBrains Mono";
+    --font_colour: #000;
+    --screen_w: 320px;
+    --screen_h: 288px;
+    --screen_lbl_gradient: linear-gradient(to bottom, #efefef, #bcbcbc);
+    --game_colour: #4dcbc2;
+    --btn_gradient: radial-gradient(circle at 40% 30%, #d4d4d4 0%, #cac9c9 40%, #999999 85%, #666666 100%);
+    --btn_shadow:
+        0 0 1px rgba(0, 0, 0, 1),
+        inset 0 2px 1px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.6),
+        inset 1px 0 2px rgba(0, 0, 0, 0.3),
+        inset -1px 0 2px rgba(0, 0, 0, 0.3);
+}

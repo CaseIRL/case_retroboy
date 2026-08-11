@@ -1,0 +1,358 @@
+<!--
+--------------------------------------------------
+
+Author: Case | https://caseirl.dev
+GitHub: https://github.com/caseirl/case_retroboy
+License: https://github.com/caseirl/case_retroboy/blob/main/LICENSE
+
+Do not resell or bundle.
+Retain this header in all files.
+Support honest open source development.
+
+--------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake Game</title>
+    <style>
+        body {
+            margin: 0;
+            background: transparent;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: monospace;
+            color: #fff;
+        }
+
+        body.active {
+            display: flex;
+        }
+
+        canvas {
+            width: 320px;
+            height: 288px;
+            background: #111;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="game_canvas" width="320" height="288"></canvas>
+
+    <script>
+        
+        // Constants
+        
+        const canvas = document.getElementById('game_canvas');
+        const ctx = canvas.getContext('2d');
+        const grid_size = 16;
+
+        // Variables
+
+        let snake = [{ x: 160, y: 144 }];
+        let food = { x: 80, y: 80 };
+        let dx = grid_size;
+        let dy = 0;
+        let score = 0;
+        let game_state = 'INACTIVE';
+        let previous_state = 'TITLE';
+        let tick_timeout = null;
+
+        // Lifecycle
+
+        function open_game() {
+            document.body.classList.add('active');
+            game_state = 'TITLE';
+            reset_game();
+            draw_title_screen();
+        }
+
+        function close_game() {
+            document.body.classList.remove('active');
+            game_state = 'INACTIVE';
+            if (tick_timeout) clearTimeout(tick_timeout);
+            clear_canvas();
+        }
+
+        // Game Loop
+
+        function main() {
+            if (game_state !== 'PLAYING') return;
+            if (tick_timeout) clearTimeout(tick_timeout);
+            tick_timeout = setTimeout(on_tick, 100);
+        }
+
+        function on_tick() {
+            if (game_state !== 'PLAYING') return;
+            
+            clear_canvas();
+            draw_food();
+            move_snake();
+            draw_snake();
+            draw_score();
+            check_game_over();
+            
+            if (game_state === 'PLAYING') main();
+        }
+
+        // Draw & Updates
+
+        function clear_canvas() {
+            ctx.fillStyle = "#111";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function draw_title_screen() {
+            clear_canvas();
+            ctx.fillStyle = "#4dcbc2";
+            ctx.font = "bold 20px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText("SNAKE", canvas.width / 2, 100);
+
+            if (Math.floor(Date.now() / 500) % 2 === 0) {
+                ctx.fillStyle = "#ffcc00";
+                ctx.font = "12px monospace";
+                ctx.fillText("PRESS START / A", canvas.width / 2, 160);
+            }
+
+            ctx.fillStyle = "#aaa";
+            ctx.font = "9px monospace";
+            ctx.fillText("SELECT / S : CONTROLS", canvas.width / 2, 220);
+        }
+
+        function draw_snake() {
+            ctx.fillStyle = "#4dcbc2";
+            snake.forEach(part => {
+                ctx.fillRect(part.x, part.y, grid_size - 2, grid_size - 2);
+            });
+        }
+
+        function move_snake() {
+            let new_x = snake[0].x + dx;
+            let new_y = snake[0].y + dy;
+
+            if (new_x < 0) new_x = canvas.width - grid_size;
+            if (new_x >= canvas.width) new_x = 0;
+            if (new_y < 0) new_y = canvas.height - grid_size;
+            if (new_y >= canvas.height) new_y = 0;
+
+            const head = { x: new_x, y: new_y };
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                create_food();
+            } else {
+                snake.pop();
+            }
+        }
+
+        function create_food() {
+            const cols = Math.floor(canvas.width / grid_size);
+            const rows = Math.floor(canvas.height / grid_size);
+            food.x = Math.floor(Math.random() * cols) * grid_size;
+            food.y = Math.floor(Math.random() * rows) * grid_size;
+        }
+
+        function draw_food() {
+            ctx.fillStyle = "#ff5555";
+            ctx.fillRect(food.x, food.y, grid_size - 2, grid_size - 2);
+        }
+
+        function draw_score() {
+            ctx.fillStyle = "#fff";
+            ctx.font = "12px monospace";
+            ctx.textAlign = "left";
+            ctx.fillText("SCORE: " + score, 10, 20);
+        }
+
+        function change_direction(dir) {
+            if (game_state !== 'PLAYING') return;
+
+            if (dir === 'up' && dy === 0) { dx = 0; dy = -grid_size; }
+            if (dir === 'down' && dy === 0) { dx = 0; dy = grid_size; }
+            if (dir === 'left' && dx === 0) { dx = -grid_size; dy = 0; }
+            if (dir === 'right' && dx === 0) { dx = grid_size; dy = 0; }
+        }
+
+        // State
+
+        function start_game() {
+            if (tick_timeout) clearTimeout(tick_timeout);
+            reset_game();
+            game_state = 'PLAYING';
+            main();
+        }
+
+        function pause_game() {
+            if (game_state !== 'PLAYING') return;
+            game_state = 'PAUSED';
+            if (tick_timeout) clearTimeout(tick_timeout);
+
+            clear_canvas();
+            ctx.fillStyle = "#ffcc00";
+            ctx.font = "16px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText("PAUSED", canvas.width / 2, canvas.height / 2 - 10);
+            ctx.fillStyle = "#fff";
+            ctx.font = "10px monospace";
+            ctx.fillText("Press Start to Resume", canvas.width / 2, canvas.height / 2 + 15);
+        }
+
+        function unpause_game() {
+            if (game_state !== 'PAUSED') return;
+            game_state = 'PLAYING';
+            main();
+        }
+
+        function toggle_controls() {
+            if (game_state === 'CONTROLS') {
+                game_state = previous_state;
+                if (game_state === 'TITLE') draw_title_screen();
+                else if (game_state === 'PLAYING') main();
+                return;
+            }
+
+            previous_state = game_state;
+            game_state = 'CONTROLS';
+            if (tick_timeout) clearTimeout(tick_timeout);
+
+            clear_canvas();
+            ctx.fillStyle = "#4dcbc2";
+            ctx.font = "bold 14px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText("CONTROLS", canvas.width / 2, 25);
+
+            ctx.strokeStyle = "#4dcbc2";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 40, 120, 100);
+
+            ctx.fillStyle = "#4dcbc2";
+            ctx.font = "10px monospace";
+            ctx.textAlign = "left";
+            ctx.fillText("D-PAD", 28, 57);
+            ctx.font = "9px monospace";
+            ctx.fillStyle = "#fff";
+            ctx.fillText("• Up / Down", 28, 75);
+            ctx.fillText("• Left / Right", 28, 92);
+            ctx.fillStyle = "#aaa";
+            ctx.fillText(" Move Snake", 28, 115);
+
+            ctx.strokeStyle = "#ff5555";
+            ctx.strokeRect(180, 40, 120, 100);
+
+            ctx.fillStyle = "#ff5555";
+            ctx.font = "10px monospace";
+            ctx.textAlign = "left";
+            ctx.fillText("BUTTONS", 188, 57);
+            ctx.font = "9px monospace";
+            ctx.fillStyle = "#fff";
+            ctx.fillText("A: Start / Restart", 188, 75);
+            ctx.fillText("PAUSE: Pause Game", 188, 92);
+            ctx.fillText("START: Unpause", 188, 105);
+            ctx.fillText("SELECT: Menu", 188, 125);
+
+            ctx.fillStyle = "#ffcc00";
+            ctx.font = "10px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText("PRESS SELECT / S TO RETURN", canvas.width / 2, 235);
+        }
+
+        function check_game_over() {
+            const head = snake[0];
+            for (let i = 1; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    trigger_game_over();
+                }
+            }
+        }
+
+        function trigger_game_over() {
+            game_state = 'GAMEOVER';
+            if (tick_timeout) clearTimeout(tick_timeout);
+            
+            clear_canvas();
+            ctx.fillStyle = "#ff5555";
+            ctx.font = "18px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 20);
+            
+            ctx.fillStyle = "#fff";
+            ctx.font = "12px monospace";
+            ctx.fillText("Score: " + score, canvas.width / 2, canvas.height / 2 + 5);
+            
+            ctx.font = "10px monospace";
+            ctx.fillText("Press A / Start to Restart", canvas.width / 2, canvas.height / 2 + 25);
+        }
+
+        function reset_game() {
+            snake = [{ x: 160, y: 144 }];
+            dx = grid_size;
+            dy = 0;
+            score = 0;
+            create_food();
+        }
+
+        function handle_input_action(action) {
+            if (game_state === 'INACTIVE') return;
+
+            if (action === 'start_btn') {
+                if (game_state === 'TITLE' || game_state === 'GAMEOVER') start_game();
+                else if (game_state === 'PLAYING') pause_game();
+                else if (game_state === 'PAUSED') unpause_game();
+            }
+
+            if (action === 'action_a') {
+                if (game_state === 'TITLE' || game_state === 'GAMEOVER') start_game();
+            }
+
+            if (action === 'select_btn') toggle_controls();
+        }
+
+        // Listeners
+
+        window.addEventListener('keydown', e => {
+            if (e.key === 'ArrowUp') change_direction('up');
+            if (e.key === 'ArrowDown') change_direction('down');
+            if (e.key === 'ArrowLeft') change_direction('left');
+            if (e.key === 'ArrowRight') change_direction('right');
+            
+            if (e.key === 'p' || e.key === 'P') {
+                if (game_state === 'PAUSED') unpause_game();
+                else if (game_state === 'PLAYING') pause_game();
+            }
+            if (e.key === 'Enter') handle_input_action('start_btn');
+            if (e.key === 'a' || e.key === 'A') handle_input_action('action_a');
+            if (e.key === 's' || e.key === 'S') handle_input_action('select_btn');
+        });
+
+        window.addEventListener('message', (e) => {
+            if (!e.data) return;
+
+            if (e.data.type === 'handheld:open') open_game();
+            if (e.data.type === 'handheld:close') close_game();
+
+            if (e.data.type === 'handheld:input') {
+                const btn = e.data.button;
+                if (btn === 'dpad_up') change_direction('up');
+                if (btn === 'dpad_down') change_direction('down');
+                if (btn === 'dpad_left') change_direction('left');
+                if (btn === 'dpad_right') change_direction('right');
+                
+                if (btn === 'a') handle_input_action('action_a');
+                if (btn === 'start') handle_input_action('start_btn');
+                if (btn === 'pause') handle_input_action('start_btn');
+                if (btn === 'select') handle_input_action('select_btn');
+            }
+        });
+    </script>
+</body>
+</html>
