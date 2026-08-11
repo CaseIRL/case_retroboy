@@ -1,4 +1,4 @@
-<img width="1278" height="714" alt="image" src="https://github.com/user-attachments/assets/adffedda-8f72-4ccb-ba4e-101942969f54" />
+<img width="1280" height="720" alt="case_retroboy_thumb2" src="https://github.com/user-attachments/assets/81c5a1ec-175e-4d46-b817-70fa2af993dc" />
 
 ---
 
