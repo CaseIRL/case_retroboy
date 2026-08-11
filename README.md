@@ -1,3 +1,7 @@
+<img width="1278" height="714" alt="image" src="https://github.com/user-attachments/assets/adffedda-8f72-4ccb-ba4e-101942969f54" />
+
+---
+
 # Case RetroBoy
 
 A handheld console for FiveM, built Game & Watch style.
@@ -7,6 +11,14 @@ Each console is intended to run one game, either through command or using an ite
 Snake and Space Invaders come included and playable out of the box.
 
 Beyond that it's a shell, games hook into it, built by you or bought from someone else, each one its own separate device.
+
+<details>
+  <summary>View Screenshots</summary>
+
+  <img width="1278" height="714" alt="image" src="https://github.com/user-attachments/assets/adffedda-8f72-4ccb-ba4e-101942969f54" />
+  <img width="1276" height="713" alt="image" src="https://github.com/user-attachments/assets/3461c1e9-3bf5-4db5-b289-9fe14ffec74c" />
+  <img width="1276" height="719" alt="image" src="https://github.com/user-attachments/assets/28d75c61-bcb3-4ac9-b597-dc31e3720f18" />
+</details>
 
 ---
 
